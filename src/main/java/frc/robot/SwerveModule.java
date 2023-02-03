@@ -14,13 +14,28 @@ import com.ctre.phoenix.motorcontrol.DemandType;
 import com.ctre.phoenix.motorcontrol.can.TalonFX;
 import com.ctre.phoenix.sensors.CANCoder;
 
+import com.revrobotics.CANSparkMax;
+import com.revrobotics.CANSparkMax.ControlType;
+import com.revrobotics.CANSparkMaxLowLevel.MotorType;
+import com.revrobotics.RelativeEncoder;
+import com.revrobotics.SparkMaxPIDController;
+import frc.robot.Constants;
+import frc.robot.Robot;
+
 public class SwerveModule {
     public int moduleNumber;
     private Rotation2d angleOffset;
     private Rotation2d lastAngle;
 
-    private TalonFX mAngleMotor;
-    private TalonFX mDriveMotor;
+    private RelativeEncoder driveEncoder;
+  private RelativeEncoder integratedAngleEncoder;
+
+   
+  private final SparkMaxPIDController driveController;
+  private final SparkMaxPIDController angleController;
+
+    private CANSparkMax angleMotor;
+  private CANSparkMax driveMotor;
     private CANCoder angleEncoder;
 
     SimpleMotorFeedforward feedforward = new SimpleMotorFeedforward(Constants.Swerve.driveKS, Constants.Swerve.driveKV, Constants.Swerve.driveKA);
@@ -34,11 +49,13 @@ public class SwerveModule {
         configAngleEncoder();
 
         /* Angle Motor Config */
-        mAngleMotor = new TalonFX(moduleConstants.angleMotorID);
-        configAngleMotor();
+        angleMotor = new CANSparkMax(moduleConstants.angleMotorID, MotorType.kBrushless);
+    integratedAngleEncoder = angleMotor.getEncoder();
+    angleController = angleMotor.getPIDController();
+    configAngleMotor();
 
         /* Drive Motor Config */
-        mDriveMotor = new TalonFX(moduleConstants.driveMotorID);
+        driveMotor = new TalonFX(moduleConstants.driveMotorID);
         configDriveMotor();
 
         lastAngle = getState().angle;
