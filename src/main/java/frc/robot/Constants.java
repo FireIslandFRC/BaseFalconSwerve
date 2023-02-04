@@ -1,6 +1,7 @@
 package frc.robot;
 
 import com.ctre.phoenix.motorcontrol.NeutralMode;
+import com.revrobotics.CANSparkMax.IdleMode;
 
 import edu.wpi.first.math.geometry.Rotation2d;
 import edu.wpi.first.math.geometry.Translation2d;
@@ -85,8 +86,8 @@ public final class Constants {
         public static final double maxAngularVelocity = 10.0; //TODO: This must be tuned to specific robot
 
         /* Neutral Modes */
-        public static final NeutralMode angleNeutralMode = NeutralMode.Coast;
-        public static final NeutralMode driveNeutralMode = NeutralMode.Brake;
+        public static final IdleMode angleNeutralMode = NeutralMode.Coast;
+        public static final IdleMode driveNeutralMode = NeutralMode.Brake;
 
         /* Module Specific Constants */
         /* Front Left Module - Module 0 */
@@ -128,6 +129,14 @@ public final class Constants {
             public static final SwerveModuleConstants constants = 
                 new SwerveModuleConstants(driveMotorID, angleMotorID, canCoderID, angleOffset);
         }
+
+        public static boolean angleInvert;
+        public static double angleConversionFactor;
+        public static double voltageComp;
+        public static double angleKFF;
+        public static boolean driveInvert;
+        public static double driveConversionVelocityFactor;
+        public static double driveConversionPositionFactor;
     }
 
     public static final class AutoConstants { //TODO: The below constants are used in the example auto, and must be tuned to specific robot
