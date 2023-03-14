@@ -49,22 +49,22 @@ public class SwerveModule {
         Constants.Swerve.driveKV,
         Constants.Swerve.driveKA);
 
-    public SwerveModule(int moduleNumber, SwerveModuleConstants moduleConstants){
+    public SwerveModule(int moduleNumber, frc.lib.config.SwerveModuleConstants constants){
         this.moduleNumber = moduleNumber;
-        this.angleOffset = moduleConstants.angleOffset;
+        this.angleOffset = constants.angleOffset;
         
         /* Angle Encoder Config */
-        angleEncoder = new CANCoder(moduleConstants.cancoderID);
+        angleEncoder = new CANCoder(constants.cancoderID);
         configAngleEncoder();
 
         /* Angle Motor Config */
-        mAngleMotor = new CANSparkMax(moduleConstants.angleMotorID, MotorType.kBrushless);
+        mAngleMotor = new CANSparkMax(constants.angleMotorID, MotorType.kBrushless);
         integratedAngleEncoder = mAngleMotor.getEncoder();
         angleController = mAngleMotor.getPIDController();
         configAngleMotor();
 
         /* Drive Motor Config */
-        mDriveMotor = new CANSparkMax(moduleConstants.driveMotorID, MotorType.kBrushless);
+        mDriveMotor = new CANSparkMax(constants.driveMotorID, MotorType.kBrushless);
         driveEncoder = mDriveMotor.getEncoder();
         driveController = mDriveMotor.getPIDController();
         configDriveMotor();
@@ -111,7 +111,7 @@ public class SwerveModule {
         return Rotation2d.fromDegrees(angleEncoder.getAbsolutePosition());
     }
 
-    private void resetToAbsolute() {
+    public void resetToAbsolute() {
     double absolutePosition = getCanCoder().getDegrees() - angleOffset.getDegrees();
     integratedAngleEncoder.setPosition(absolutePosition);
   }
@@ -159,4 +159,6 @@ public class SwerveModule {
     return new SwerveModuleState(driveEncoder.getVelocity(), getAngle());
   }
 
-}
+  public SwerveModulePosition getPosition(){
+        return new SwerveModulePosition();
+}}

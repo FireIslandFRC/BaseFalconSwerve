@@ -6,7 +6,7 @@ import edu.wpi.first.math.geometry.Translation2d;
 import edu.wpi.first.math.kinematics.SwerveDriveKinematics;
 import edu.wpi.first.math.trajectory.TrapezoidProfile;
 import edu.wpi.first.math.util.Units;
-import frc.lib.config.SwerveModuleConstants;
+import frc.lib.config.SwerveModuleConstants;      
 
 public final class Constants {
 
@@ -120,6 +120,22 @@ public final class Constants {
       public static final SwerveModuleConstants constants =
           new SwerveModuleConstants(driveMotorID, angleMotorID, canCoderID, angleOffset);
     }
+
+    public static boolean angleEnableCurrentLimit;
+
+    public static boolean driveEnableCurrentLimit;
+
+    public static double drivePeakCurrentDuration;
+
+    public static double drivePeakCurrentLimit;
+
+    public static double angleKF;
+
+    public static double anglePeakCurrentDuration;
+
+    public static double anglePeakCurrentLimit;
+
+    public static double driveKF;
   }
 
   public static final class AutoConstants {
